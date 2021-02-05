@@ -9,6 +9,7 @@ import nunez.emman.mynt.parcelservice.dto.ParcelInfo;
 import nunez.emman.mynt.parcelservice.enums.ParcelType;
 import nunez.emman.mynt.parcelservice.exceptions.BaseException;
 import nunez.emman.mynt.parcelservice.exceptions.IncompleteParcelInfoException;
+import nunez.emman.mynt.parcelservice.exceptions.InvalidParcelInfoException;
 import nunez.emman.mynt.parcelservice.exceptions.ParcelExceedWeightLimitException;
 import nunez.emman.mynt.parcelservice.properties.ParcelDeliveryProperty;
 import org.apache.commons.lang3.ObjectUtils;
@@ -74,9 +75,17 @@ public class ParcelDeliveryService {
         return new ParcelDeliveryCalculationResult(cost, PHP);
     }
 
-    private void validateRequest(final ParcelDeliveryCalculationRequestDto parcelDeliveryCalculationRequestDto) throws IncompleteParcelInfoException {
-        if (ObjectUtils.anyNull(parcelDeliveryCalculationRequestDto.getHeight(), parcelDeliveryCalculationRequestDto.getLength(), parcelDeliveryCalculationRequestDto.getWeight(), parcelDeliveryCalculationRequestDto.getWidth())) {
+    private void validateRequest(final ParcelDeliveryCalculationRequestDto parcelDeliveryCalculationRequestDto) throws IncompleteParcelInfoException, InvalidParcelInfoException {
+        final Double height = parcelDeliveryCalculationRequestDto.getHeight();
+        final Double length = parcelDeliveryCalculationRequestDto.getLength();
+        final Double weight = parcelDeliveryCalculationRequestDto.getWeight();
+        final Double width = parcelDeliveryCalculationRequestDto.getWidth();
+        if (ObjectUtils.anyNull(height, length, weight, width)) {
             throw new IncompleteParcelInfoException();
+        }
+
+        if (height <= 0.00 ||  length <= 0.00 || weight <= 0.00 || width <= 0.00) {
+            throw new InvalidParcelInfoException();
         }
     }
 

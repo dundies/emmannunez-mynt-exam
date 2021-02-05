@@ -36,6 +36,15 @@ public class TestHelper {
                 .build();
     }
 
+    public static ParcelDeliveryCalculationRequestDto createInvalidParcelRequest() {
+        return ParcelDeliveryCalculationRequestDto.builder()
+                .weight(-1000.0)
+                .height(-10.0)
+                .width(0.0)
+                .length(10.0)
+                .build();
+    }
+
     public static ParcelDeliveryCalculationRequestDto createHeavyParcelRequest() {
         return ParcelDeliveryCalculationRequestDto.builder()
                 .weight(40.0)

@@ -10,6 +10,7 @@ import nunez.emman.mynt.parcelservice.dto.ParcelDeliveryCalculationRequestDto;
 import nunez.emman.mynt.parcelservice.enums.ParcelType;
 import nunez.emman.mynt.parcelservice.exceptions.BaseException;
 import nunez.emman.mynt.parcelservice.exceptions.IncompleteParcelInfoException;
+import nunez.emman.mynt.parcelservice.exceptions.InvalidParcelInfoException;
 import nunez.emman.mynt.parcelservice.exceptions.ParcelExceedWeightLimitException;
 import nunez.emman.mynt.parcelservice.properties.ParcelDeliveryProperty;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,6 +56,11 @@ public class ParcelDeliveryServiceTest {
     @Test
     public void testCalculateCost_whenIncompleteRequest_thenThrowException() {
         assertThrows(IncompleteParcelInfoException.class, () -> parcelDeliveryService.calculateCost(new ParcelDeliveryCalculationRequestDto()));
+    }
+
+    @Test
+    public void testCalculateCost_whenInvalidRequest_thenThrowException() {
+        assertThrows(InvalidParcelInfoException.class, () -> parcelDeliveryService.calculateCost(TestHelper.createInvalidParcelRequest()));
     }
 
     @Test
